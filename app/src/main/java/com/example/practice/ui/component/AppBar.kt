@@ -2,10 +2,11 @@ package com.example.practice.ui.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -20,15 +21,14 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.example.practice.ui.theme.Lavender02
 import com.example.practice.ui.theme.Typography
+import com.example.practice.ui.theme.White
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
@@ -42,8 +42,8 @@ fun AppBar() {
         topBar = {
             CenterAlignedTopAppBar(
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
+                    containerColor = White,
+                    titleContentColor = Lavender02,
                 ),
                 modifier = Modifier
                     .width(412.dp)
@@ -53,8 +53,8 @@ fun AppBar() {
                         text = "Title",
                         style = Typography.titleMedium,
                         modifier = Modifier
-                            .width(51.dp)
-                            .height(20.dp)
+                            .fillMaxHeight() // ✅ 높이 최대 확장
+                            .wrapContentHeight(Alignment.CenterVertically)
                     )
 
                 },

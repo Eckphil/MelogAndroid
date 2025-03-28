@@ -1,8 +1,6 @@
 package com.example.practice.ui.component
 
-import android.widget.Button
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
