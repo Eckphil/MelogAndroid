@@ -14,12 +14,12 @@ import com.example.practice.R
 // Set of Material typography styles to start with
 
 val pretendard = FontFamily(
-    Font(R.font.pretendard_regular, FontWeight.Normal, FontStyle.Normal),
-    Font(R.font.pretendard_semibold, FontWeight.SemiBold, FontStyle.Normal)
+    Font(R.font.pretendard_regular, FontWeight.Normal),
+    Font(R.font.pretendard_semibold, FontWeight.SemiBold)
 )
 
 val leeseoyun = FontFamily(
-    Font(R.font.leeseoyun, FontWeight.Normal, FontStyle.Normal)
+    Font(R.font.leeseoyun, FontWeight.Normal)
 )
 
 val Typography = Typography(
