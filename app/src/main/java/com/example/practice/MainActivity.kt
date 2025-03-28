@@ -76,11 +76,3 @@ fun GreetingPreview() {
         Greeting("Android")
     }
 }
-
-@Preview
-@Composable
-fun Popup(){
-
-}
-
-
