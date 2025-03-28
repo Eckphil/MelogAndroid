@@ -4,9 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.materialIcon
 import androidx.compose.material3.Button
@@ -18,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -75,4 +78,19 @@ fun GreetingPreview() {
     PracticeTheme {
         Greeting("Android")
     }
+    Image(
+        painter = painterResource(id = R.drawable.anger),
+        contentDescription = "Test Image",
+        modifier =  Modifier.size(24.dp)
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun AssetTest() {
+    Image(
+        painter = painterResource(id = R.drawable.sadness),
+        contentDescription = "Test Image",
+        modifier =  Modifier.size(24.dp)
+    )
 }
