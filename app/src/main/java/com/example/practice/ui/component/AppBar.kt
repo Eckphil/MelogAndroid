@@ -1,5 +1,6 @@
 package com.example.practice.ui.component
 
+import android.icu.text.CaseMap.Title
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -31,9 +32,8 @@ import com.example.practice.ui.theme.Typography
 import com.example.practice.ui.theme.White
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
-fun AppBar() {
+fun AppBar(title: String, text: String) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     Scaffold(
@@ -50,7 +50,7 @@ fun AppBar() {
                     .height(48.dp),
                 title = {
                     Text(
-                        text = "Title",
+                        text = title,
                         style = Typography.titleMedium,
                         modifier = Modifier
                             .fillMaxHeight() // ✅ 높이 최대 확장
@@ -69,7 +69,7 @@ fun AppBar() {
                 actions = {
                     TextButton(onClick = { /* do something */ }) {
                         Text(
-                            "text",
+                            text = text,
                             style = Typography.titleMedium
                         )
                     }
@@ -96,4 +96,10 @@ fun ScrollContent(innerPadding: PaddingValues) {
             Text(text = "- List item number ${index + 1}")
         }
     }
+}
+
+@Preview
+@Composable
+fun AppBarPreview(){
+    AppBar("Title", "Text")
 }

@@ -38,7 +38,7 @@ import com.example.practice.ui.theme.Typography
 import com.example.practice.ui.theme.White
 
 @Composable
-fun Popup(onDismissRequest: () -> Unit) {
+fun Popup(title: String, text: String, onDismissRequest: () -> Unit) {
     Dialog(onDismissRequest = { onDismissRequest() }) {
         Card(
             modifier = Modifier
@@ -59,7 +59,7 @@ fun Popup(onDismissRequest: () -> Unit) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Title",
+                    text = title,
                     style = Typography.titleLarge,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -69,7 +69,7 @@ fun Popup(onDismissRequest: () -> Unit) {
                 )
 
                 Text(
-                    text = "Text",
+                    text = text,
                     style = Typography.bodyMedium,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -92,7 +92,7 @@ fun Popup(onDismissRequest: () -> Unit) {
                 )
                 {
                     Text(
-                        text = "OK",
+                        text = "확인",
                         style = Typography.titleMedium,
                     )
                 }
@@ -102,7 +102,7 @@ fun Popup(onDismissRequest: () -> Unit) {
 }
 
 @Composable
-fun YNPopup(onDismissRequest: () -> Unit) {
+fun YNPopup(title: String, text: String, y: String, onDismissRequest: () -> Unit) {
     Dialog(onDismissRequest = { onDismissRequest() }) {
         Card(
             modifier = Modifier
@@ -123,7 +123,7 @@ fun YNPopup(onDismissRequest: () -> Unit) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Title",
+                    text = title,
                     style = Typography.titleLarge,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -133,7 +133,7 @@ fun YNPopup(onDismissRequest: () -> Unit) {
                 )
 
                 Text(
-                    text = "Text",
+                    text = text,
                     style = Typography.bodyMedium,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -150,7 +150,7 @@ fun YNPopup(onDismissRequest: () -> Unit) {
                 ){
                     TextButton(onClick = {}) {
                         Text(
-                            text = "NO",
+                            text = "취소",
                             style = Typography.titleLarge,
                             fontSize = 32.sp,
                             color = Grey
@@ -158,7 +158,7 @@ fun YNPopup(onDismissRequest: () -> Unit) {
                     }
                     TextButton(onClick = {}) {
                         Text(
-                            text = "YES",
+                            text = y,
                             style = Typography.titleLarge,
                             fontSize = 32.sp,
                             color = Lavender04
@@ -172,8 +172,8 @@ fun YNPopup(onDismissRequest: () -> Unit) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InputPopup(onDismissRequest: () -> Unit) {
-    var text by remember{ mutableStateOf("Input") }
+fun InputPopup(title: String, input: String, onDismissRequest: () -> Unit) {
+    var text by remember{ mutableStateOf(input) }
 
     Dialog(onDismissRequest = { onDismissRequest() }) {
         Card(
@@ -195,7 +195,7 @@ fun InputPopup(onDismissRequest: () -> Unit) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Title",
+                    text = title,
                     style = Typography.titleLarge,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -236,7 +236,7 @@ fun InputPopup(onDismissRequest: () -> Unit) {
                 )
                 {
                     Text(
-                        text = "OK",
+                        text = "확인",
                         style = Typography.titleMedium,
                     )
                 }
@@ -249,19 +249,19 @@ fun InputPopup(onDismissRequest: () -> Unit) {
 @Preview
 @Composable
 fun PopupPreview(){
-    Popup({ onDismissRequest() })
+    Popup("Title", "Text", { onDismissRequest() })
 }
 
 @Preview
 @Composable
 fun YNPopupPreview(){
-    YNPopup({ onDismissRequest() })
+    YNPopup("Title", "Text", "긍정", { onDismissRequest() })
 }
 
 @Preview
 @Composable
 fun InputPopupPreview(){
-    InputPopup({ onDismissRequest() })
+    InputPopup("Title", "Input", { onDismissRequest() })
 }
 
 fun onDismissRequest(){

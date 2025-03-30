@@ -21,11 +21,10 @@ import com.example.practice.ui.theme.Lavender04
 import com.example.practice.ui.theme.Typography
 import com.example.practice.ui.theme.White
 
-@Preview
 @Composable
-fun RecButton(){
+fun RecButton(text: String, onClick: () -> Unit){
     Button(
-        onClick = {},
+        onClick = onClick,
         shape = RectangleShape,
         colors = ButtonDefaults.buttonColors(
             containerColor = Lavender04,
@@ -39,17 +38,16 @@ fun RecButton(){
     )
     {
         Text(
-            text = "Text",
+            text = text,
             style = Typography.titleLarge,
         )
     }
 }
 
-@Preview
 @Composable
-fun RoundButton(){
+fun RoundButton(text: String, onClick: () -> Unit){
     Button(
-        onClick = {},
+        onClick = onClick,
         shape = RoundedCornerShape(size = 60.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = Lavender04,
@@ -63,17 +61,16 @@ fun RoundButton(){
     )
     {
         Text(
-            text = "Text",
+            text = text,
             style = Typography.titleLarge,
         )
     }
 }
 
-@Preview
 @Composable
-fun BottomButton(){
+fun BottomButton(text: String, onClick: () -> Unit){
     Button(
-        onClick = {},
+        onClick = onClick,
         shape = RectangleShape,
         colors = ButtonDefaults.buttonColors(
             containerColor = Lavender04,
@@ -88,18 +85,17 @@ fun BottomButton(){
     {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
             Text(
-                text = "Text",
+                text = text,
                 style = Typography.titleLarge,
             )
         }
     }
 }
 
-@Preview
 @Composable
-fun Logout(){
+fun Logout(text: String, onClick: () -> Unit){
     OutlinedButton(
-        onClick = {},
+        onClick = onClick,
         shape = RoundedCornerShape(size = 15.dp),
         border = BorderStroke(
             width = 1.dp,
@@ -117,17 +113,16 @@ fun Logout(){
     )
     {
         Text(
-            text = "Text",
+            text = text,
             style = Typography.titleLarge,
         )
     }
 }
 
-@Preview
 @Composable
-fun DeleteID(){
+fun DeleteID(text: String, onClick: () -> Unit){
     Button(
-        onClick = {},
+        onClick = onClick,
         shape = RoundedCornerShape(size = 15.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = Lavender04,
@@ -141,17 +136,16 @@ fun DeleteID(){
     )
     {
         Text(
-            text = "Text",
+            text = text,
             style = Typography.titleLarge,
         )
     }
 }
 
-@Preview
 @Composable
-fun SRButton(){
+fun SRButton(text: String, onClick: () -> Unit){
     Button(
-        onClick = {},
+        onClick = onClick,
         shape = RoundedCornerShape(size = 15.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = Lavender04,
@@ -165,8 +159,50 @@ fun SRButton(){
     )
     {
         Text(
-            text = "Text",
+            text = text,
             style = Typography.titleMedium,
         )
     }
+}
+
+@Preview
+@Composable
+fun RecButtonPreview(){
+    RecButton("text", {onClickExample()})
+}
+
+@Preview
+@Composable
+fun RoundButtonPreview(){
+    RoundButton("text", {onClickExample()})
+}
+
+@Preview
+@Composable
+fun BottomButtonPreview(){
+    BottomButton("text", {onClickExample()})
+}
+
+@Preview
+@Composable
+fun LogoutPreview(){
+    Logout("text", {onClickExample()})
+}
+
+@Preview
+@Composable
+fun DeleteIDPreview(){
+    DeleteID("text", {onClickExample()})
+}
+
+@Preview
+@Composable
+fun SRButtonPreview(){
+    SRButton("text", {onClickExample()})
+}
+
+
+
+fun onClickExample(){
+    
 }

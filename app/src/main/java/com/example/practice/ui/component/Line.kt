@@ -1,5 +1,6 @@
 package com.example.practice.ui.component
 
+import android.icu.text.CaseMap.Title
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,10 +22,9 @@ import com.example.practice.ui.theme.Grey
 import com.example.practice.ui.theme.Lavender02
 import com.example.practice.ui.theme.Typography
 
-@Preview
 @Composable
-fun LineInput(){
-    var text by remember{ mutableStateOf("Input") }
+fun LineInput(input: String){
+    var text by remember{ mutableStateOf(input) }
 
     Column(
         modifier = Modifier.width(380.dp)) {
@@ -40,15 +40,14 @@ fun LineInput(){
     }
 }
 
-@Preview
 @Composable
-fun TitledLineInput(){
-    var text by remember{ mutableStateOf("Input") }
+fun TitledLineInput(title: String, input: String){
+    var text by remember{ mutableStateOf(input) }
 
     Column(
         modifier = Modifier.width(380.dp)) {
         Text(
-            text = "title",
+            text = title,
             modifier = Modifier.padding(bottom = 30.dp),
             style = Typography.titleMedium,
             color = Lavender02
@@ -63,4 +62,16 @@ fun TitledLineInput(){
         Spacer(modifier = Modifier.height(30.dp)) // 30dp 간격 추가
         HorizontalDivider(thickness = 1.dp, color = Grey) // 구분선 추가
     }
+}
+
+@Preview
+@Composable
+fun LineInputPreview(){
+    LineInput("input")
+}
+
+@Preview
+@Composable
+fun TitledLineInputPreview(){
+    TitledLineInput("title", "input")
 }
