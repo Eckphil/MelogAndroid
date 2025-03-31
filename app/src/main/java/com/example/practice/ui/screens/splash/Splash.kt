@@ -30,7 +30,7 @@ fun Splash(){
     ){
         Image(
             painter = painterResource(id = R.drawable.melog),
-            contentDescription = "Test Image",
+            contentDescription = "Melog Logo",
             modifier = Modifier
                 .width(283.16547.dp)
                 .height(160.dp)
