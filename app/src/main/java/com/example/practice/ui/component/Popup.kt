@@ -1,6 +1,7 @@
 package com.example.practice.ui.component
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -203,21 +204,8 @@ fun InputPopup(title: String, input: String, onDismissRequest: () -> Unit) {
                         .wrapContentHeight(Alignment.CenterVertically),
                     textAlign = TextAlign.Center
                 )
+                PopupLineInput("Input")
 
-                TextField(
-                    value = text,
-                    onValueChange = { text = it },
-                    singleLine = true,
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    colors = TextFieldDefaults.textFieldColors(
-                        containerColor = White,
-                        cursorColor = Lavender02,         // 커서 색상 검은색
-                        focusedIndicatorColor = Lavender02, // 포커스 시 밑줄 검은색
-                        unfocusedIndicatorColor = Grey, // 포커스 해제 시 밑줄 회색
-                        disabledIndicatorColor = Grey, // 비활성화 시 밑줄 회색
-                    )
-                )
 
                 Spacer(modifier = Modifier.weight(1f))
 

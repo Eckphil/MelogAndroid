@@ -1,5 +1,6 @@
 package com.example.practice.ui.component
 
+import android.graphics.Paint.Style
 import android.icu.text.CaseMap.Title
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -18,6 +19,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.practice.ui.theme.Black
 import com.example.practice.ui.theme.Grey
 import com.example.practice.ui.theme.Lavender02
 import com.example.practice.ui.theme.Typography
@@ -31,9 +33,12 @@ fun LineInput(input: String){
         BasicTextField(
             value = text,
             onValueChange = { text = it },
-            textStyle = Typography.titleMedium.copy(color = Lavender02),
+            textStyle = Typography.titleMedium.copy(
+                color = if (text == input) Grey else Black
+            ),
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(),
+
         )
         Spacer(modifier = Modifier.height(30.dp)) // 30dp 간격 추가
         HorizontalDivider(thickness = 1.dp, color = Grey) // 구분선 추가
@@ -55,7 +60,29 @@ fun TitledLineInput(title: String, input: String){
         BasicTextField(
             value = text,
             onValueChange = { text = it },
-            textStyle = Typography.titleMedium.copy(color = Lavender02),
+            textStyle = Typography.titleMedium.copy(
+                color = if (text == input) Grey else Black
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(30.dp)) // 30dp 간격 추가
+        HorizontalDivider(thickness = 1.dp, color = Grey) // 구분선 추가
+    }
+}
+
+@Composable
+fun PopupLineInput(input: String){
+    var text by remember{ mutableStateOf(input) }
+
+    Column(
+        modifier = Modifier.width(280.dp)) {
+        BasicTextField(
+            value = text,
+            onValueChange = { text = it },
+            textStyle = Typography.titleMedium.copy(
+                color = if (text == input) Grey else Black
+            ),
             modifier = Modifier
                 .fillMaxWidth()
         )
@@ -74,4 +101,10 @@ fun LineInputPreview(){
 @Composable
 fun TitledLineInputPreview(){
     TitledLineInput("title", "input")
+}
+
+@Preview
+@Composable
+fun PopupLineInputPreview(){
+    PopupLineInput("Input")
 }
