@@ -1,6 +1,7 @@
 package com.example.practice.ui.component
 
 import android.icu.text.CaseMap.Title
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -24,9 +25,12 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.practice.R
 import com.example.practice.ui.theme.Lavender02
 import com.example.practice.ui.theme.Typography
 import com.example.practice.ui.theme.White
@@ -56,9 +60,10 @@ fun AppBar(title: String, text: String, onBackClick: () -> Unit, onActionClick: 
         },
         navigationIcon = {
             IconButton(onClick = onBackClick) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Localized description"
+                val imageVector = ImageVector.vectorResource(id = R.drawable.previous)
+                Image(
+                    imageVector = imageVector,
+                    contentDescription = "check"
                 )
             }
         },

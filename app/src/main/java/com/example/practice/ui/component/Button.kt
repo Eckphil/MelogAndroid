@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.practice.ui.theme.Grey
 import com.example.practice.ui.theme.Lavender04
 import com.example.practice.ui.theme.Typography
@@ -157,13 +158,14 @@ fun SRButton(text: String, onClick: () -> Unit){
             disabledContentColor = White
         ),
         modifier = Modifier
-            .width(100.dp)
+            .width(140.dp)
             .height(40.dp)
     )
     {
         Text(
             text = text,
             style = Typography.titleMedium,
+            fontSize = 20.sp
         )
     }
 }
