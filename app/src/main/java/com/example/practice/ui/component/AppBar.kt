@@ -33,53 +33,45 @@ import com.example.practice.ui.theme.White
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppBar(title: String, text: String) {
+fun AppBar(title: String, text: String, onBackClick: () -> Unit, onActionClick: () -> Unit) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
-    Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-
-        topBar = {
-            CenterAlignedTopAppBar(
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = White,
-                    titleContentColor = Lavender02,
-                ),
+    CenterAlignedTopAppBar(
+        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = White,
+            titleContentColor = Lavender02,
+        ),
+        modifier = Modifier
+            .width(412.dp)
+            .height(48.dp),
+        title = {
+            Text(
+                text = title,
+                style = Typography.titleMedium,
                 modifier = Modifier
-                    .width(412.dp)
-                    .height(48.dp),
-                title = {
-                    Text(
-                        text = title,
-                        style = Typography.titleMedium,
-                        modifier = Modifier
-                            .fillMaxHeight() // ✅ 높이 최대 확장
-                            .wrapContentHeight(Alignment.CenterVertically)
-                    )
-
-                },
-                navigationIcon = {
-                    IconButton(onClick = { /* do something */ }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Localized description"
-                        )
-                    }
-                },
-                actions = {
-                    TextButton(onClick = { /* do something */ }) {
-                        Text(
-                            text = text,
-                            style = Typography.titleMedium
-                        )
-                    }
-                },
-                scrollBehavior = scrollBehavior,
+                    .fillMaxHeight() // ✅ 높이 최대 확장
+                    .wrapContentHeight(Alignment.CenterVertically)
             )
+
         },
-    ) { innerPadding ->
-        ScrollContent(innerPadding)
-    }
+        navigationIcon = {
+            IconButton(onClick = onBackClick) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "Localized description"
+                )
+            }
+        },
+        actions = {
+            TextButton(onClick = onActionClick) {
+                Text(
+                    text = text,
+                    style = Typography.titleMedium
+                )
+            }
+        },
+        scrollBehavior = scrollBehavior,
+    )
 }
 
 @Composable
@@ -101,5 +93,13 @@ fun ScrollContent(innerPadding: PaddingValues) {
 @Preview
 @Composable
 fun AppBarPreview(){
-    AppBar("Title", "Text")
+    AppBar("Title", "Text", {onBackClickExample()}, { onActionClickExample()})
+}
+
+fun onBackClickExample(){
+
+}
+
+fun onActionClickExample(){
+
 }
