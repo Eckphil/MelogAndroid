@@ -63,7 +63,7 @@ fun History(item: DiaryHistoryItem){
     Card(
         Modifier
             .shadow(elevation = 4.dp, spotColor = Color(0x40000000), ambientColor = Color(0x40000000))
-            .width(380.dp)
+            .width(360.dp)
             .height(120.dp)
             .background(color = White, shape = RoundedCornerShape(size = 15.dp))
     ){
