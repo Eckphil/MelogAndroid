@@ -1,5 +1,6 @@
 package com.example.practice.ui.screens.diary
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,7 +9,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,17 +24,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.practice.R
 import com.example.practice.ui.component.CustomCalendar
 import com.example.practice.ui.component.DiaryHistoryItem
 import com.example.practice.ui.component.EmotionType
 import com.example.practice.ui.component.History
 import com.example.practice.ui.theme.Lavender01
+import com.example.practice.ui.theme.Lavender02
 import com.example.practice.ui.theme.Lavender03
 import com.example.practice.ui.theme.Lavender04
 import com.example.practice.ui.theme.Typography
+import com.example.practice.ui.theme.White
 
 @Preview
 @Composable
@@ -63,6 +75,22 @@ fun Calender(){
                 )
 
                 History(item = exampleItem)
+            }
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { /* 일기 작성 화면으로 이동하는 코드 작성 */ },
+                containerColor = White, // 원하는 색상
+                shape = CircleShape,
+                modifier = Modifier
+                    .size(72.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.write),
+                    contentDescription = "Write Diary",
+                    modifier = Modifier
+                        .size(24.dp)
+                )
             }
         },
         bottomBar = { com.example.practice.ui.component.BottomAppBar() }
