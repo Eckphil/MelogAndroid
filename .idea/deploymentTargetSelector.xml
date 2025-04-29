@@ -5,7 +5,7 @@
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="InputPopupPreview">
+      <SelectionState runConfigName="Calender">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

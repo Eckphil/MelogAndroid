@@ -28,8 +28,9 @@ import androidx.compose.ui.unit.sp
 import com.example.practice.R
 import com.example.practice.ui.component.AppBar
 import com.example.practice.ui.component.BottomButton
+import com.example.practice.ui.component.NoButtonAppBar
 import com.example.practice.ui.component.RecButton
-import com.example.practice.ui.component.onActionClickExample
+import com.example.practice.ui.component.onAction1ClickExample
 import com.example.practice.ui.component.onBackClickExample
 import com.example.practice.ui.component.onClickExample
 import com.example.practice.ui.theme.Lavender02
@@ -40,7 +41,7 @@ import com.example.practice.ui.theme.Typography
 @Composable
 fun Usergenre(){
     Scaffold(
-        topBar = { AppBar("장르 선택", "", { onBackClickExample()}, { onActionClickExample()})},
+        topBar = { NoButtonAppBar("장르 선택", { onBackClickExample()}) },
         content = { innerPadding ->
             Column(
                 modifier = Modifier

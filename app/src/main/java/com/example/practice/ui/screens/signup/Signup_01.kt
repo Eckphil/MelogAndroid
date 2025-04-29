@@ -25,9 +25,12 @@ import com.example.practice.R
 import com.example.practice.ui.component.AppBar
 import com.example.practice.ui.component.BottomButton
 import com.example.practice.ui.component.LineInput
+import com.example.practice.ui.component.LineInputWithAction
+import com.example.practice.ui.component.NoButtonAppBar
 import com.example.practice.ui.component.SRButton
 import com.example.practice.ui.component.TitledLineInput
-import com.example.practice.ui.component.onActionClickExample
+import com.example.practice.ui.component.TitledLineInputWithAction
+import com.example.practice.ui.component.onAction1ClickExample
 import com.example.practice.ui.component.onBackClickExample
 import com.example.practice.ui.component.onClickExample
 import com.example.practice.ui.theme.Red
@@ -37,7 +40,7 @@ import com.example.practice.ui.theme.Typography
 @Composable
 fun Signup_01(){
     Scaffold(
-        topBar = {AppBar("회원 가입", "", {onBackClickExample()}, {onActionClickExample()})},
+        topBar = { NoButtonAppBar("회원 가입", {onBackClickExample()}) },
         content = { innerPadding ->
             Column(
                 modifier = Modifier
@@ -50,37 +53,10 @@ fun Signup_01(){
                     modifier = Modifier.fillMaxWidth(),
                     contentAlignment = Alignment.Center
                 ) {
-                    Column {
-                        TitledLineInput("로그인 시 사용할 이메일", "이메일 입력")
-                        Text(
-                            text = "중복 확인을 진행해 주세요.",
-                            style = Typography.titleSmall,
-                            color = Red,
-                        )
-                    }
-                    Box(
-                        modifier = Modifier //중복확인 버튼을 옮겨야하는데 잘 모르겟슴...
-                    ){
-                        SRButton("중복 확인", { onClickExample()})
-                    }
-                }
-                Spacer(modifier = Modifier.height(10.dp))
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column {
-                        TitledLineInput("로그인 시 사용할 비밀번호", "비밀번호 입력")
-                        Text(
-                            text = "조건에 맞게 입력해주세요.",
-                            style = Typography.titleSmall,
-                            color = Red,
-                        )
-                    }
-                    val imageVector = ImageVector.vectorResource(id = R.drawable.eye)
-                    Image(
-                        imageVector = imageVector,
-                        contentDescription = "eye"
+                    TitledLineInputWithAction(
+                        title = "로그인 시 사용할 이메일",
+                        input = "이메일 입력",
+                        action = {SRButton("중복 확인", {})}
                     )
                 }
                 Spacer(modifier = Modifier.height(10.dp))
@@ -88,18 +64,32 @@ fun Signup_01(){
                     modifier = Modifier.fillMaxWidth(),
                     contentAlignment = Alignment.Center
                 ) {
-                    Column {
-                        LineInput("비밀번호 재입력")
-                        Text(
-                            text = "비밀번호를 다시 입력해주세요.",
-                            style = Typography.titleSmall,
-                            color = Red,
-                        )
-                    }
-                    val imageVector = ImageVector.vectorResource(id = R.drawable.eye)
-                    Image(
-                        imageVector = imageVector,
-                        contentDescription = "eye"
+                    TitledLineInputWithAction(
+                        title = "로그인 시 사용할 비밀번호",
+                        input = "비밀번호 입력",
+                        action = {
+                            val imageVector = ImageVector.vectorResource(id = R.drawable.eye)
+                            Image(
+                                imageVector = imageVector,
+                                contentDescription = "eye"
+                            )
+                        }
+                    )
+                }
+                Spacer(modifier = Modifier.height(10.dp))
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    LineInputWithAction(
+                        input = "비밀번호 재입력",
+                        action = {
+                            val imageVector = ImageVector.vectorResource(id = R.drawable.eye)
+                            Image(
+                                imageVector = imageVector,
+                                contentDescription = "eye"
+                            )
+                        }
                     )
                 }
                 Spacer(modifier = Modifier.height(10.dp))

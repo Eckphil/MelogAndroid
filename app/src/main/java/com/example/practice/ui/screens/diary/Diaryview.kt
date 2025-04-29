@@ -30,6 +30,7 @@ import com.example.practice.ui.component.DiaryHistoryItem
 import com.example.practice.ui.component.EmotionType
 import com.example.practice.ui.component.History
 import com.example.practice.ui.component.LineInput
+import com.example.practice.ui.component.TwoButtonAppBar
 import com.example.practice.ui.theme.Black
 import com.example.practice.ui.theme.Grey
 import com.example.practice.ui.theme.Lavender01
@@ -41,7 +42,7 @@ import com.example.practice.ui.theme.Typography
 @Composable
 fun Diaryview(){
     Scaffold(
-        topBar = {AppBar("일기 확인", "수정", {}, {})},
+        topBar = { TwoButtonAppBar("일기 확인", "삭제", "수정", {}, {}, {}) },
         content = { innerPadding->
             Column (
                 modifier = Modifier

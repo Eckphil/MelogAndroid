@@ -87,7 +87,7 @@ fun BottomButton(text: String, onClick: () -> Unit){
             .height(124.dp)
     )
     {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Text(
                 text = text,
                 style = Typography.titleLarge,

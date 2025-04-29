@@ -23,8 +23,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.practice.ui.component.AppBar
 import com.example.practice.ui.component.LineInput
+import com.example.practice.ui.component.NoButtonAppBar
 import com.example.practice.ui.component.RecButton
-import com.example.practice.ui.component.onActionClickExample
+import com.example.practice.ui.component.onAction1ClickExample
 import com.example.practice.ui.component.onBackClickExample
 import com.example.practice.ui.component.onClickExample
 import com.example.practice.ui.theme.Lavender02
@@ -35,7 +36,7 @@ import com.example.practice.ui.theme.Typography
 @Composable
 fun Signin(){
     Scaffold(
-        topBar = {AppBar("로그인", "", { onBackClickExample()}, { onActionClickExample()})},
+        topBar = { NoButtonAppBar("로그인", { onBackClickExample()}) },
         content = { innerPadding ->
             Column(
                 modifier = Modifier
