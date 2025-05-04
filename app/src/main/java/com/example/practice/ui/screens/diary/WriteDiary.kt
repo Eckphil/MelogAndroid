@@ -37,6 +37,8 @@ import java.time.format.DateTimeFormatter
 @Preview
 @Composable
 fun WriteDiary(){
+    val input = "오늘 하루를 기록해보세요!"
+    var text by remember { mutableStateOf(input)}
     val today = LocalDate.now()
     val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd (E)") // 원하는 형식 지정
     val formattedDate = today.format(formatter)
@@ -63,6 +65,18 @@ fun WriteDiary(){
                 ) {
                     HorizontalDivider(thickness = 3.dp, color = Lavender04) // 구분선 추가
                 }
+                BasicTextField(
+                    value = text,
+                    onValueChange = { text = it },
+                    textStyle = Typography.displayMedium.copy(
+                        color = if (text == input) Grey else Black
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth() // 전체 너비 확보
+                        .align(Alignment.Start) // 좌측 정렬
+                        .padding(horizontal = 16.dp) // 여백은 선택
+                        .weight(1f)
+                )
             }
         },
         bottomBar = { BottomAppBar() }
