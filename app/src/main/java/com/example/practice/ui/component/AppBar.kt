@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
@@ -56,8 +58,8 @@ fun AppBar(title: String, text: String, onBackClick: () -> Unit, onActionClick: 
             titleContentColor = Lavender02,
         ),
         modifier = Modifier
-            .width(412.dp)
-            .height(48.dp),
+            .fillMaxWidth()
+            .statusBarsPadding(),
         title = {
             Text(
                 text = title,
@@ -101,8 +103,8 @@ fun TwoButtonAppBar(title: String, text1: String, text2: String,
             titleContentColor = Lavender02,
         ),
         modifier = Modifier
-            .width(412.dp)
-            .height(48.dp),
+            .fillMaxWidth()
+            .statusBarsPadding(),
         title = {
             Text(
                 text = title,
@@ -153,8 +155,8 @@ fun NoButtonAppBar(title: String, onBackClick: () -> Unit) {
             titleContentColor = Lavender02,
         ),
         modifier = Modifier
-            .width(412.dp)
-            .height(48.dp),
+            .fillMaxWidth()
+            .statusBarsPadding(),
         title = {
             Text(
                 text = title,
@@ -189,7 +191,8 @@ fun BottomAppBar() {
         modifier = Modifier
             .fillMaxWidth()
             .height(100.dp)
-            .background(White),
+            .background(White)
+            .navigationBarsPadding(),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         val menuItems = listOf(

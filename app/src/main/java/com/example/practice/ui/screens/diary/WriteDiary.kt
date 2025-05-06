@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.practice.ui.component.AppBar
 import com.example.practice.ui.component.BottomAppBar
 import com.example.practice.ui.component.LineInput
@@ -34,9 +35,9 @@ import com.example.practice.ui.theme.Typography
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-@Preview
+
 @Composable
-fun WriteDiary(){
+fun WriteDiary(navController: NavHostController){
     val input = "오늘 하루를 기록해보세요!"
     var text by remember { mutableStateOf(input)}
     val today = LocalDate.now()
@@ -44,7 +45,13 @@ fun WriteDiary(){
     val formattedDate = today.format(formatter)
 
     Scaffold(
-        topBar = {AppBar("일기 작성", "저장", {}, {})},
+        topBar = {AppBar(
+            title = "일기 작성",
+            text = "저장",
+            onBackClick = {navController.popBackStack()},
+            onActionClick = {}
+        )
+                 },
         content = { innerPadding->
             Column (
                 modifier = Modifier

@@ -24,6 +24,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.practice.R
 import com.example.practice.ui.component.RoundButton
 import com.example.practice.ui.component.onClickExample
@@ -32,9 +33,8 @@ import com.example.practice.ui.theme.Lavender04
 import com.example.practice.ui.theme.Typography
 import com.example.practice.ui.theme.White
 
-@Preview
 @Composable
-fun Signup_00(){
+fun Signup_00(navController: NavHostController){
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -105,7 +105,7 @@ fun Signup_00(){
                 modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ) {
-                RoundButton("회원가입") { onClickExample() }
+                RoundButton("회원가입") { navController.navigate("Signup_01") }
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -119,7 +119,7 @@ fun Signup_00(){
                     fontSize = 16.sp,
                     color = Lavender02
                 )
-                TextButton(onClick = {onClickExample()}) {
+                TextButton(onClick = {navController.navigate("Signin")}) {
                     Text(
                         text = "로그인",
                         style = Typography.bodyMedium,

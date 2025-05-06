@@ -28,6 +28,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.practice.R
 import com.example.practice.ui.component.CustomCalendar
 import com.example.practice.ui.component.DiaryHistoryItem
@@ -40,9 +41,8 @@ import com.example.practice.ui.theme.Lavender04
 import com.example.practice.ui.theme.Typography
 import com.example.practice.ui.theme.White
 
-@Preview
 @Composable
-fun Calender(){
+fun Calender(navController: NavHostController){
     Scaffold(
         content = { innerPadding ->
             Column (
@@ -79,7 +79,7 @@ fun Calender(){
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { /* 일기 작성 화면으로 이동하는 코드 작성 */ },
+                onClick = { navController.navigate("WriteDiary") },
                 containerColor = White, // 원하는 색상
                 shape = CircleShape,
                 modifier = Modifier

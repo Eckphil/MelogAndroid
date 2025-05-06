@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.practice.R
 import com.example.practice.ui.component.AppBar
 import com.example.practice.ui.component.BottomButton
@@ -37,9 +38,8 @@ import com.example.practice.ui.theme.Lavender02
 import com.example.practice.ui.theme.Lavender04
 import com.example.practice.ui.theme.Typography
 
-@Preview
 @Composable
-fun Usergenre(){
+fun Usergenre(navController: NavHostController){
     Scaffold(
         topBar = { NoButtonAppBar("장르 선택", { onBackClickExample()}) },
         content = { innerPadding ->
@@ -184,6 +184,6 @@ fun Usergenre(){
                 }
             }
         },
-        bottomBar = { BottomButton("선택완료", { onClickExample()}) }
+        bottomBar = { BottomButton("선택완료", { navController.navigate("Signin")}) }
     )
 }

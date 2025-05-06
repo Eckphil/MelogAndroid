@@ -21,6 +21,7 @@ import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.practice.R
 import com.example.practice.ui.component.AppBar
 import com.example.practice.ui.component.BottomButton
@@ -36,9 +37,8 @@ import com.example.practice.ui.component.onClickExample
 import com.example.practice.ui.theme.Red
 import com.example.practice.ui.theme.Typography
 
-@Preview
 @Composable
-fun Signup_01(){
+fun Signup_01(navController: NavHostController){
     Scaffold(
         topBar = { NoButtonAppBar("회원 가입", {onBackClickExample()}) },
         content = { innerPadding ->
@@ -122,6 +122,8 @@ fun Signup_01(){
                 }
             }
         },
-        bottomBar = { BottomButton("가입완료", { onClickExample()})}
+        bottomBar = {
+            BottomButton("가입완료", { navController.navigate("Usergenre") })
+        }
     )
 }

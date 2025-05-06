@@ -21,6 +21,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.practice.ui.component.AppBar
 import com.example.practice.ui.component.LineInput
 import com.example.practice.ui.component.NoButtonAppBar
@@ -32,9 +33,8 @@ import com.example.practice.ui.theme.Lavender02
 import com.example.practice.ui.theme.Lavender04
 import com.example.practice.ui.theme.Typography
 
-@Preview
 @Composable
-fun Signin(){
+fun Signin(navController: NavHostController){
     Scaffold(
         topBar = { NoButtonAppBar("로그인", { onBackClickExample()}) },
         content = { innerPadding ->
@@ -50,7 +50,7 @@ fun Signin(){
                 Spacer(modifier = Modifier.height(40.dp))
                 LineInput("비밀번호")
                 Spacer(modifier = Modifier.height(30.dp))
-                RecButton("로그인") { onClickExample() }
+                RecButton("로그인") { navController.navigate("Calender") }
                 Spacer(modifier = Modifier.height(30.dp))
                 Row(
                     modifier = Modifier

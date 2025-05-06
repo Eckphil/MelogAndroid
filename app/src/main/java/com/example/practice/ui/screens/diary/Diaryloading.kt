@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.practice.R
 import com.example.practice.ui.theme.Lavender02
 import com.example.practice.ui.theme.Lavender04
@@ -25,8 +26,8 @@ import com.example.practice.ui.theme.Typography
 import com.example.practice.ui.theme.White
 
 @Composable
-@Preview
-fun Diaryloading(){
+
+fun Diaryloading(navController: NavHostController){
     Box(
         modifier = Modifier
             .fillMaxSize()
