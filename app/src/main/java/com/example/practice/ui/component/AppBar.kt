@@ -9,11 +9,16 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -187,35 +192,46 @@ fun NoButtonAppBar(title: String, onBackClick: () -> Unit) {
 @Preview
 @Composable
 fun BottomAppBar() {
+    val onCalendarClick = { /* 캘린더 이동 */ }
+    val onStatisticClick = { /* 통계 이동 */ }
+    val onCommunityClick = { /* 커뮤니티 이동 */ }
+    val onHistoryClick = { /* 히스토리 이동 */ }
+    val onUserClick = { /* 유저 정보 이동 */ }
+
+    val bottomPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+
+    // 아이템 이름, 아이콘, 설명, 클릭 함수 등록
+    val menuItems = listOf(
+        Triple("캘린더", R.drawable.calendar, "calendar") to onCalendarClick,
+        Triple("통계", R.drawable.statistic, "statistic") to onStatisticClick,
+        Triple("커뮤니티", R.drawable.community, "community") to onCommunityClick,
+        Triple("히스토리", R.drawable.history, "history") to onHistoryClick,
+        Triple("유저 정보", R.drawable.user, "user") to onUserClick
+    )
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(100.dp)
+            .height(120.dp + bottomPadding)
             .background(White)
-            .navigationBarsPadding(),
+            .padding(top = 10.dp,bottom = bottomPadding),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        val menuItems = listOf(
-            Triple("캘린더", R.drawable.calendar, "calendar"),
-            Triple("통계", R.drawable.statistic, "statistic"),
-            Triple("커뮤니티", R.drawable.community, "community"),
-            Triple("히스토리", R.drawable.history, "history"),
-            Triple("유저 정보", R.drawable.user, "user")
-        )
-
-        menuItems.forEach { (label, iconId, contentDesc) ->
+        menuItems.forEach { (item, onClick) ->
+            val (label, iconId, contentDesc) = item
             Column(
                 modifier = Modifier
-                    .fillMaxHeight()
                     .width(76.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center // ✅ 이 부분 추가
+                verticalArrangement = Arrangement.Center
             ) {
-                IconButton(onClick = { /* TODO */ }) {
+                IconButton(onClick = onClick) {
                     val imageVector = ImageVector.vectorResource(id = iconId)
                     Image(
                         imageVector = imageVector,
-                        contentDescription = contentDesc
+                        contentDescription = contentDesc,
+                        modifier = Modifier
+                            .size(36.dp) // ✅ 아이콘 크기 설정
                     )
                 }
                 Text(

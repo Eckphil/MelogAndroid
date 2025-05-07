@@ -41,7 +41,7 @@ import com.example.practice.ui.theme.Typography
 @Composable
 fun Usergenre(navController: NavHostController){
     Scaffold(
-        topBar = { NoButtonAppBar("장르 선택", { onBackClickExample()}) },
+        topBar = { NoButtonAppBar("장르 선택", {navController.popBackStack()}) },
         content = { innerPadding ->
             Column(
                 modifier = Modifier
