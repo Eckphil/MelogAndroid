@@ -204,7 +204,7 @@ fun InputPopup(title: String, input: String, onDismissRequest: () -> Unit) {
                         .wrapContentHeight(Alignment.CenterVertically),
                     textAlign = TextAlign.Center
                 )
-                PopupLineInput("Input")
+                PopupLineInput("Input", onValueChange = { text = it })
 
 
                 Spacer(modifier = Modifier.weight(1f))

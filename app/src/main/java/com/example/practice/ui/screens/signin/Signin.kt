@@ -14,6 +14,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -35,6 +39,9 @@ import com.example.practice.ui.theme.Typography
 
 @Composable
 fun Signin(navController: NavHostController){
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+
     Scaffold(
         topBar = { NoButtonAppBar("로그인", { onBackClickExample()}) },
         content = { innerPadding ->
@@ -46,9 +53,9 @@ fun Signin(navController: NavHostController){
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
                 Spacer(modifier = Modifier.height(160.dp))
-                LineInput("이메일")
+                LineInput("이메일", onValueChange = { email = it })
                 Spacer(modifier = Modifier.height(40.dp))
-                LineInput("비밀번호")
+                LineInput("비밀번호", onValueChange = { password = it })
                 Spacer(modifier = Modifier.height(30.dp))
                 RecButton("로그인") { navController.navigate("Calender") }
                 Spacer(modifier = Modifier.height(30.dp))

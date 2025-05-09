@@ -14,6 +14,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -32,6 +36,12 @@ import com.example.practice.ui.theme.Typography
 
 @Composable
 fun Signup_01(navController: NavHostController){
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var passwordCheck by remember { mutableStateOf("") }
+    var phoneNumber by remember { mutableStateOf("") }
+    var nickname by remember { mutableStateOf("") }
+
     Scaffold(
         topBar = { NoButtonAppBar("회원 가입", {navController.popBackStack()}) },
         content = { innerPadding ->
@@ -49,6 +59,7 @@ fun Signup_01(navController: NavHostController){
                     TitledLineInputWithAction(
                         title = "로그인 시 사용할 이메일",
                         input = "이메일 입력",
+                        onValueChange = {email = it},
                         action = {SRButton("중복 확인", {})}
                     )
                 }
@@ -60,6 +71,7 @@ fun Signup_01(navController: NavHostController){
                     TitledLineInputWithAction(
                         title = "로그인 시 사용할 비밀번호",
                         input = "비밀번호 입력",
+                        onValueChange = {password = it},
                         action = {
                             IconButton(onClick={}) {
                                 val imageVector = ImageVector.vectorResource(id = R.drawable.eye)
@@ -79,6 +91,7 @@ fun Signup_01(navController: NavHostController){
                 ) {
                     LineInputWithAction(
                         input = "비밀번호 재입력",
+                        onValueChange = {passwordCheck = it},
                         action = {
                             IconButton(onClick={}) {
                                 val imageVector = ImageVector.vectorResource(id = R.drawable.eye)
@@ -97,7 +110,7 @@ fun Signup_01(navController: NavHostController){
                     contentAlignment = Alignment.Center
                 ) {
                     Column{
-                        TitledLineInput("휴대폰번호", "휴대폰번호 입력")
+                        TitledLineInput("휴대폰번호", "휴대폰번호 입력", {phoneNumber = it})
                         Text(
                             text = "휴대폰번호를 입력해주세요.",
                             style = Typography.titleSmall,
@@ -111,7 +124,7 @@ fun Signup_01(navController: NavHostController){
                     contentAlignment = Alignment.Center
                 ) {
                     Column{
-                        TitledLineInput("닉네임", "닉네임 입력")
+                        TitledLineInput("닉네임", "닉네임 입력", {nickname = it})
                         Text(
                             text = "닉네임을 입력해주세요.",
                             style = Typography.titleSmall,
