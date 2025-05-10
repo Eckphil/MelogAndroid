@@ -1,6 +1,5 @@
 package com.example.practice.ui.screens.signup
 
-import android.graphics.Paint.Align
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,37 +9,41 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.practice.R
-import com.example.practice.ui.component.AppBar
 import com.example.practice.ui.component.BottomButton
-import com.example.practice.ui.component.LineInput
 import com.example.practice.ui.component.LineInputWithAction
 import com.example.practice.ui.component.NoButtonAppBar
 import com.example.practice.ui.component.SRButton
 import com.example.practice.ui.component.TitledLineInput
 import com.example.practice.ui.component.TitledLineInputWithAction
-import com.example.practice.ui.component.onAction1ClickExample
-import com.example.practice.ui.component.onBackClickExample
-import com.example.practice.ui.component.onClickExample
 import com.example.practice.ui.theme.Red
 import com.example.practice.ui.theme.Typography
 
 @Composable
 fun Signup_01(navController: NavHostController){
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var passwordCheck by remember { mutableStateOf("") }
+    var phoneNumber by remember { mutableStateOf("") }
+    var nickname by remember { mutableStateOf("") }
+
     Scaffold(
-        topBar = { NoButtonAppBar("회원 가입", {onBackClickExample()}) },
+        topBar = { NoButtonAppBar("회원 가입", {navController.popBackStack()}) },
         content = { innerPadding ->
             Column(
                 modifier = Modifier
@@ -56,6 +59,7 @@ fun Signup_01(navController: NavHostController){
                     TitledLineInputWithAction(
                         title = "로그인 시 사용할 이메일",
                         input = "이메일 입력",
+                        onValueChange = {email = it},
                         action = {SRButton("중복 확인", {})}
                     )
                 }
@@ -67,12 +71,16 @@ fun Signup_01(navController: NavHostController){
                     TitledLineInputWithAction(
                         title = "로그인 시 사용할 비밀번호",
                         input = "비밀번호 입력",
+                        onValueChange = {password = it},
                         action = {
-                            val imageVector = ImageVector.vectorResource(id = R.drawable.eye)
-                            Image(
-                                imageVector = imageVector,
-                                contentDescription = "eye"
-                            )
+                            IconButton(onClick={}) {
+                                val imageVector = ImageVector.vectorResource(id = R.drawable.eye)
+                                Image(
+                                    imageVector = imageVector,
+                                    contentDescription = "eye",
+                                    modifier = Modifier.size(24.dp)
+                                )
+                            }
                         }
                     )
                 }
@@ -83,12 +91,16 @@ fun Signup_01(navController: NavHostController){
                 ) {
                     LineInputWithAction(
                         input = "비밀번호 재입력",
+                        onValueChange = {passwordCheck = it},
                         action = {
-                            val imageVector = ImageVector.vectorResource(id = R.drawable.eye)
-                            Image(
-                                imageVector = imageVector,
-                                contentDescription = "eye"
-                            )
+                            IconButton(onClick={}) {
+                                val imageVector = ImageVector.vectorResource(id = R.drawable.eye)
+                                Image(
+                                    imageVector = imageVector,
+                                    contentDescription = "eye",
+                                    modifier = Modifier.size(24.dp)
+                                )
+                            }
                         }
                     )
                 }
@@ -98,7 +110,7 @@ fun Signup_01(navController: NavHostController){
                     contentAlignment = Alignment.Center
                 ) {
                     Column{
-                        TitledLineInput("휴대폰번호", "휴대폰번호 입력")
+                        TitledLineInput("휴대폰번호", "휴대폰번호 입력", {phoneNumber = it})
                         Text(
                             text = "휴대폰번호를 입력해주세요.",
                             style = Typography.titleSmall,
@@ -112,7 +124,7 @@ fun Signup_01(navController: NavHostController){
                     contentAlignment = Alignment.Center
                 ) {
                     Column{
-                        TitledLineInput("닉네임", "닉네임 입력")
+                        TitledLineInput("닉네임", "닉네임 입력", {nickname = it})
                         Text(
                             text = "닉네임을 입력해주세요.",
                             style = Typography.titleSmall,

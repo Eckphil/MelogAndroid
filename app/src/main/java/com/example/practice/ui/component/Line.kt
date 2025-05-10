@@ -28,32 +28,31 @@ import com.example.practice.ui.theme.Lavender02
 import com.example.practice.ui.theme.Typography
 
 @Composable
-fun LineInput(input: String){
-    var text by remember{ mutableStateOf(input) }
-
-    Column(
-        modifier = Modifier.width(380.dp)) {
+fun LineInput(
+    value: String,
+    onValueChange: (String) -> Unit
+) {
+    Column(modifier = Modifier.width(380.dp)) {
         BasicTextField(
-            value = text,
-            onValueChange = { text = it },
+            value = value,
+            onValueChange = onValueChange,
             textStyle = Typography.titleMedium.copy(
-                color = if (text == input) Grey else Black
+                color = if (value.isEmpty()) Grey else Black
             ),
-            modifier = Modifier
-                .fillMaxWidth(),
-
+            modifier = Modifier.fillMaxWidth()
         )
-        Spacer(modifier = Modifier.height(30.dp)) // 30dp 간격 추가
-        HorizontalDivider(thickness = 1.dp, color = Grey) // 구분선 추가
+        Spacer(modifier = Modifier.height(30.dp))
+        HorizontalDivider(thickness = 1.dp, color = Grey)
     }
 }
 
 @Composable
-fun TitledLineInput(title: String, input: String){
-    var text by remember{ mutableStateOf(input) }
-
-    Column(
-        modifier = Modifier.width(380.dp)) {
+fun TitledLineInput(
+    title: String,
+    input: String,
+    onValueChange: (String) -> Unit
+) {
+    Column(modifier = Modifier.width(380.dp)) {
         Text(
             text = title,
             modifier = Modifier.padding(bottom = 30.dp),
@@ -61,42 +60,39 @@ fun TitledLineInput(title: String, input: String){
             color = Lavender02
         )
         BasicTextField(
-            value = text,
-            onValueChange = { text = it },
+            value = input,
+            onValueChange = onValueChange,
             textStyle = Typography.titleMedium.copy(
-                color = if (text == input) Grey else Black
+                color = if (input.isEmpty()) Grey else Black
             ),
-            modifier = Modifier
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         )
-        Spacer(modifier = Modifier.height(30.dp)) // 30dp 간격 추가
-        HorizontalDivider(thickness = 1.dp, color = Grey) // 구분선 추가
+        Spacer(modifier = Modifier.height(30.dp))
+        HorizontalDivider(thickness = 1.dp, color = Grey)
     }
 }
 
 @Composable
 fun LineInputWithAction(
     input: String,
+    onValueChange: (String) -> Unit,
     action: @Composable () -> Unit
 ) {
-    var text by remember { mutableStateOf(input) }
-
     Column(modifier = Modifier.width(380.dp)) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
             BasicTextField(
-                value = text,
-                onValueChange = { text = it },
+                value = input,
+                onValueChange = onValueChange,
                 textStyle = Typography.titleMedium.copy(
-                    color = if (text == input) Grey else Black
+                    color = if (input.isEmpty()) Grey else Black
                 ),
-                modifier = Modifier
-                    .weight(1f) // Row 내에서 가변 너비 설정
+                modifier = Modifier.weight(1f)
             )
-            Spacer(modifier = Modifier.width(8.dp)) // 텍스트 필드와 action 사이 여백
-            action() // 여기에 버튼이나 아이콘 등 전달
+            Spacer(modifier = Modifier.width(8.dp))
+            action()
         }
         Spacer(modifier = Modifier.height(30.dp))
         HorizontalDivider(thickness = 1.dp, color = Grey)
@@ -107,10 +103,9 @@ fun LineInputWithAction(
 fun TitledLineInputWithAction(
     title: String,
     input: String,
+    onValueChange: (String) -> Unit,
     action: @Composable () -> Unit
 ) {
-    var text by remember { mutableStateOf(input) }
-
     Column(modifier = Modifier.width(380.dp)) {
         Text(
             text = title,
@@ -123,16 +118,15 @@ fun TitledLineInputWithAction(
             modifier = Modifier.fillMaxWidth()
         ) {
             BasicTextField(
-                value = text,
-                onValueChange = { text = it },
+                value = input,
+                onValueChange = onValueChange,
                 textStyle = Typography.titleMedium.copy(
-                    color = if (text == input) Grey else Black
+                    color = if (input.isEmpty()) Grey else Black
                 ),
-                modifier = Modifier
-                    .weight(1f) // Row 내에서 가변 너비 설정
+                modifier = Modifier.weight(1f)
             )
-            Spacer(modifier = Modifier.width(8.dp)) // 텍스트 필드와 action 사이 여백
-            action() // 여기에 버튼이나 아이콘 등 전달
+            Spacer(modifier = Modifier.width(8.dp))
+            action()
         }
         Spacer(modifier = Modifier.height(30.dp))
         HorizontalDivider(thickness = 1.dp, color = Grey)
@@ -140,42 +134,49 @@ fun TitledLineInputWithAction(
 }
 
 @Composable
-fun PopupLineInput(input: String){
-    var text by remember{ mutableStateOf(input) }
-
-    Column(
-        modifier = Modifier.width(280.dp)) {
+fun PopupLineInput(
+    value: String,
+    onValueChange: (String) -> Unit
+) {
+    Column(modifier = Modifier.width(280.dp)) {
         BasicTextField(
-            value = text,
-            onValueChange = { text = it },
+            value = value,
+            onValueChange = onValueChange,
             textStyle = Typography.titleMedium.copy(
-                color = if (text == input) Grey else Black
+                color = if (value.isEmpty()) Grey else Black
             ),
-            modifier = Modifier
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         )
-        Spacer(modifier = Modifier.height(30.dp)) // 30dp 간격 추가
-        HorizontalDivider(thickness = 1.dp, color = Grey) // 구분선 추가
+        Spacer(modifier = Modifier.height(30.dp))
+        HorizontalDivider(thickness = 1.dp, color = Grey)
     }
 }
 
 @Preview
 @Composable
-fun LineInputPreview(){
-    LineInput("input")
+fun LineInputPreview() {
+    LineInput(
+        value = "example",
+        onValueChange = {}
+    )
 }
 
 @Preview
 @Composable
-fun TitledLineInputPreview(){
-    TitledLineInput("title", "input")
+fun TitledLineInputPreview() {
+    TitledLineInput(
+        title = "타이틀",
+        input = "example",
+        onValueChange = {}
+    )
 }
 
 @Preview
 @Composable
-fun LineInputWithActionPreview(){
+fun LineInputWithActionPreview() {
     LineInputWithAction(
         input = "이메일 입력",
+        onValueChange = {},
         action = {
             SRButton("중복 확인") { onClickExample() }
         }
@@ -184,10 +185,11 @@ fun LineInputWithActionPreview(){
 
 @Preview
 @Composable
-fun TitledLineInputWithActionPreview(){
+fun TitledLineInputWithActionPreview() {
     TitledLineInputWithAction(
         title = "로그인 시 사용할 이메일",
         input = "이메일 입력",
+        onValueChange = {},
         action = {
             SRButton("중복 확인") { onClickExample() }
         }
@@ -196,6 +198,9 @@ fun TitledLineInputWithActionPreview(){
 
 @Preview
 @Composable
-fun PopupLineInputPreview(){
-    PopupLineInput("Input")
+fun PopupLineInputPreview() {
+    PopupLineInput(
+        value = "example",
+        onValueChange = {}
+    )
 }

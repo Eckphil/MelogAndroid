@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.practice.ui.component.AppBar
 import com.example.practice.ui.component.BottomAppBar
@@ -40,13 +41,13 @@ import com.example.practice.ui.theme.Lavender04
 import com.example.practice.ui.theme.Typography
 
 @Composable
-fun Diaryview(navController: NavHostController){
+fun Diaryview(navController: NavController){
     Scaffold(
         topBar = { TwoButtonAppBar(
             title = "일기 확인",
             text1 = "삭제",
             text2 = "수정",
-            onBackClick = {navController.popBackStack()},
+            onBackClick = {},
             onAction1Click = {},
             onAction2Click = {})
                  },
