@@ -1,6 +1,5 @@
 package com.example.practice.api
 
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -10,102 +9,102 @@ import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface MelogApi {
-// ---------------------- User 관련 ----------------------
+    // ---------------------- User 관련 ----------------------
 
     @POST("/user/register")
-    fun registerUser(@Body request: UserCreateRequest): Call<UserRegisterResponse>
+    suspend fun registerUser(@Body request: UserCreateRequest): Response<UserRegisterResponse>
 
     @POST("/user/login")
-    fun loginUser(@Body request: UserLoginRequest): Call<UserLoginResponse>
+    suspend fun loginUser(@Body request: UserLoginRequest): Response<UserLoginResponse>
 
     @POST("/user/logout")
-    fun logoutUser(): Call<Unit>
+    suspend fun logoutUser(): Response<Unit>
 
     @POST("/user/check-password")
-    fun checkPassword(@Body request: UserPasswordUpdateRequest): Call<Unit>
+    suspend fun checkPassword(@Body request: UserPasswordUpdateRequest): Response<Unit>
 
     @POST("/user/refresh")
-    fun refreshToken(): Call<UserLoginResponse>
+    suspend fun refreshToken(): Response<UserLoginResponse>
 
     @GET("/user/me")
-    fun getUserInfo(): Call<UserResponse>
+    suspend fun getUserInfo(): Response<UserResponse>
 
     @GET("/user/check/auth")
-    fun checkAuth(): Call<Unit>
+    suspend fun checkAuth(): Response<Unit>
 
     @PUT("/user/change/info")
-    fun updateUserInfo(@Body request: UserUpdateRequest): Call<UserResponse>
+    suspend fun updateUserInfo(@Body request: UserUpdateRequest): Response<UserResponse>
 
     @PUT("/user/change/password")
-    fun updatePassword(@Body request: UserPasswordUpdateRequest): Call<Unit>
+    suspend fun updatePassword(@Body request: UserPasswordUpdateRequest): Response<Unit>
 
     @DELETE("/user/delete")
-    fun deleteUser(): Call<Unit>
+    suspend fun deleteUser(): Response<Unit>
 
     @POST("/user/genre/{genre_id}")
-    fun addGenre(@Path("genre_id") genreId: Int): Call<Unit>
+    suspend fun addGenre(@Path("genre_id") genreId: Int): Response<Unit>
 
     @DELETE("/user/genre/{genre_id}")
-    fun deleteGenre(@Path("genre_id") genreId: Int): Call<Unit>
+    suspend fun deleteGenre(@Path("genre_id") genreId: Int): Response<Unit>
 
     @GET("/user/genre")
-    fun getUserGenres(): Call<List<UserGenreResponse>>
+    suspend fun getUserGenres(): Response<List<UserGenreResponse>>
 
     // ---------------------- Diary 관련 ----------------------
 
     @GET("/diary")
-    fun getDiaries(): Call<List<DiaryResponse>>
+    suspend fun getDiaries(): Response<List<DiaryResponse>>
 
     @POST("/diary")
-    fun createDiary(@Body request: DiaryCreateRequest): Call<List<SongResponse>>
+    suspend fun createDiary(@Body request: DiaryCreateRequest): Response<List<SongResponse>>
 
     @POST("/diary/main")
-    fun createDiaryMain(@Body request: DiaryCreateRequest): Call<List<SongResponse>>
+    suspend fun createDiaryMain(@Body request: DiaryCreateRequest): Response<List<SongResponse>>
 
     @GET("/diary/{diary_id}")
-    fun getDiary(@Path("diary_id") diaryId: Int): Call<DiaryResponse>
+    suspend fun getDiary(@Path("diary_id") diaryId: Int): Response<DiaryResponse>
 
     @PUT("/diary/{diary_id}")
-    fun updateDiary(@Path("diary_id") diaryId: Int, @Body request: DiaryUpdateRequest): Call<DiaryResponse>
+    suspend fun updateDiary(@Path("diary_id") diaryId: Int, @Body request: DiaryUpdateRequest): Response<DiaryResponse>
 
     @DELETE("/diary/{diary_id}")
-    fun deleteDiary(@Path("diary_id") diaryId: Int): Call<Unit>
+    suspend fun deleteDiary(@Path("diary_id") diaryId: Int): Response<Unit>
 
     @GET("/diary/{year}/{month}")
-    fun getDiaryByDate(@Path("year") year: Int, @Path("month") month: Int): Call<List<DiaryResponse>>
+    suspend fun getDiaryByDate(@Path("year") year: Int, @Path("month") month: Int): Response<List<DiaryResponse>>
 
     @GET("/diary/{year}/{month}/count")
-    fun getDiaryCountByDate(@Path("year") year: Int, @Path("month") month: Int): Call<DiaryCountResponse>
+    suspend fun getDiaryCountByDate(@Path("year") year: Int, @Path("month") month: Int): Response<DiaryCountResponse>
 
     // ---------------------- Genre 관련 ----------------------
 
     @GET("/genre")
-    fun getAllGenres(): Call<List<GenreResponse>>
+    suspend fun getAllGenres(): Response<List<GenreResponse>>
 
     @POST("/genre/new")
-    fun addNewGenre(@Body request: GenreResponse): Call<GenreResponse>
+    suspend fun addNewGenre(@Body request: GenreResponse): Response<GenreResponse>
 
     // ---------------------- Songs 관련 ----------------------
 
     @GET("/songs")
-    fun getSongs(): Call<List<SongResponse>>
+    suspend fun getSongs(): Response<List<SongResponse>>
 
     @GET("/songs/genre")
-    fun getSongsByGenre(): Call<List<SongResponse>>
+    suspend fun getSongsByGenre(): Response<List<SongResponse>>
 
     // ---------------------- Statistics 관련 ----------------------
 
     @GET("/statistics/current-month")
-    fun getCurrentMonthStatistics(): Call<List<EmotionStatisticsSchema>>
+    suspend fun getCurrentMonthStatistics(): Response<List<EmotionStatisticsSchema>>
 
     @GET("/statistics")
-    fun getAllStatistics(): Call<List<EmotionStatisticsSchema>>
+    suspend fun getAllStatistics(): Response<List<EmotionStatisticsSchema>>
 
     @GET("/statistics/{year}/{month}")
-    fun getStatisticsByMonth(@Path("year") year: Int, @Path("month") month: Int): Call<List<EmotionStatisticsSchema>>
+    suspend fun getStatisticsByMonth(@Path("year") year: Int, @Path("month") month: Int): Response<List<EmotionStatisticsSchema>>
 
     // ---------------------- Default ----------------------
 
     @GET("/")
-    fun readRoot(): Call<String>
+    suspend fun readRoot(): Response<String>
 }

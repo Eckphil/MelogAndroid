@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.practice.screens.LoginTestScreen
 import com.example.practice.ui.screens.diary.Calender
 import com.example.practice.ui.screens.diary.Diaryloading
 import com.example.practice.ui.screens.diary.Diaryview
@@ -37,7 +38,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            MainApp()
+            LoginTestScreen()
         }
     }
 }
