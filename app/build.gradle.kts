@@ -63,4 +63,15 @@ dependencies {
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+    // Hilt Core
+    implementation("com.google.dagger:hilt-android:2.48")
+
+    // Hilt Navigation-Compose
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+
+    // ViewModel, Lifecycle already included but ensure:
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
+
+    // Compose 필요 시 추가
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.1")
 }

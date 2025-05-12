@@ -1,5 +1,7 @@
 package com.example.practice.ui.component
 
+import CalendarViewModel
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -31,6 +33,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,11 +43,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.practice.R
 import com.example.practice.ui.theme.Black
 import com.example.practice.ui.theme.Lavender02
 import com.example.practice.ui.theme.Lavender03
@@ -53,81 +62,53 @@ import java.time.LocalDate
 import java.time.YearMonth
 
 @Composable
-fun CustomCalendar() {
+fun CustomCalendar(viewModel: CalendarViewModel = hiltViewModel()) {
     val today = LocalDate.now()
     var selectedYear by remember { mutableStateOf(today.year) }
     var selectedMonth by remember { mutableStateOf(today.monthValue) }
-    var showDialog by remember { mutableStateOf(false) }
+    val diaryEmotions = viewModel.diaryEmotions
 
-    val firstDayOfMonth = LocalDate.of(selectedYear, selectedMonth, 1)
-    val lastDayOfMonth = firstDayOfMonth.withDayOfMonth(firstDayOfMonth.lengthOfMonth())
-    val startDayOfWeek = firstDayOfMonth.dayOfWeek.value % 7
-    val daysInMonth = lastDayOfMonth.dayOfMonth
-
-    val totalCells = ((startDayOfWeek + daysInMonth + 6) / 7) * 7 // 주 단위로 정렬
-    val dates = (0 until totalCells).map { index ->
-        val day = index - startDayOfWeek + 1
-        if (day in 1..daysInMonth) day else null
+    LaunchedEffect(selectedYear, selectedMonth) {
+        viewModel.loadDiaryEmotions(selectedYear, selectedMonth)
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-        // 연월 텍스트 (클릭 시 다이얼로그 오픈)
-        Text(
-            text = "${selectedMonth}월",
-            modifier = Modifier
-                .clickable { showDialog = true },
-            style = Typography.displayMedium,
-            fontSize = 36.sp,
-            color = Lavender02,
-        )
+    // 달력 날짜 생성
+    val firstDayOfMonth = LocalDate.of(selectedYear, selectedMonth, 1)
+    val daysInMonth = firstDayOfMonth.lengthOfMonth()
+    val startDayOfWeek = firstDayOfMonth.dayOfWeek.value % 7
+    val totalCells = ((startDayOfWeek + daysInMonth + 6) / 7) * 7
+    val dates = (0 until totalCells).map { index ->
+        val day = index - startDayOfWeek + 1
+        if (day in 1..daysInMonth) LocalDate.of(selectedYear, selectedMonth, day) else null
+    }
 
-        Spacer(modifier = Modifier.height(40.dp))
+    Column(modifier = Modifier.padding(16.dp)) {
+        // 연월 선택 및 요일 표시 생략 ...
 
-        // 요일 헤더
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            listOf("일", "월", "화", "수", "목", "금", "토").forEach { day ->
-                Text(
-                    text = day,
-                    modifier = Modifier.weight(1f),
-                    style = Typography.displayMedium,
-                    fontSize = 20.sp,
-                    color = Lavender03,
-                    textAlign = TextAlign.Center
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        // 날짜 출력
         dates.chunked(7).forEach { week ->
             Row(modifier = Modifier.fillMaxWidth()) {
-                week.forEach { day ->
+                week.forEach { date ->
                     Box(
                         modifier = Modifier
                             .weight(1f)
                             .aspectRatio(1f),
                         contentAlignment = Alignment.Center
                     ) {
-                        if (day != null) {
-                            val isToday = today.year == selectedYear && today.monthValue == selectedMonth && today.dayOfMonth == day
-                            Box(
-                                modifier = Modifier
-                                    .size(48.dp)
-                                    .clip(CircleShape)
-                                    .background(if (isToday) Lavender04 else Color.Transparent),
-                                contentAlignment = Alignment.Center
-                            ) {
+                        if (date != null) {
+                            val emotionId = diaryEmotions[date]
+                            if (emotionId != null && emotionId in 0..7) {
+                                val imageRes = getDrawableIdByName("emotion_$emotionId")
+                                Image(
+                                    painter = painterResource(id = imageRes),
+                                    contentDescription = "Emotion $emotionId",
+                                    modifier = Modifier.size(32.dp)
+                                )
+                            } else {
                                 Text(
-                                    text = "$day",
-                                    textAlign = TextAlign.Center,
-                                    color = if (isToday) Color.White else Color.Black,
+                                    text = "${date.dayOfMonth}",
                                     style = Typography.displayMedium,
-                                    fontSize = 20.sp
+                                    fontSize = 20.sp,
+                                    color = Color.Black
                                 )
                             }
                         }
@@ -135,21 +116,17 @@ fun CustomCalendar() {
                 }
             }
         }
-
-        // 연월 선택 다이얼로그
-        if (showDialog) {
-            YearMonthPickerDialog(
-                initialYear = selectedYear,
-                onDismiss = { showDialog = false },
-                onMonthSelected = { year, month ->
-                    selectedYear = year
-                    selectedMonth = month
-                    showDialog = false
-                }
-            )
-        }
     }
 }
+
+@Composable
+fun getDrawableIdByName(name: String): Int {
+    val context = LocalContext.current
+    return context.resources.getIdentifier(name, "drawable", context.packageName)
+}
+
+
+
 
 @Composable
 fun YearMonthPickerDialog(
@@ -234,6 +211,21 @@ fun YearMonthPickerDialog(
                 }
             }
         }
+    }
+}
+
+@Composable
+fun getEmojiResId(emotionId: Int): Int {
+    return when (emotionId) {
+        0 -> R.drawable.excitement
+        1 -> R.drawable.anticipation
+        2 -> R.drawable.satisfaction
+        3 -> R.drawable.comfortable
+        4 -> R.drawable.emptiness
+        5 -> R.drawable.depression
+        6 -> R.drawable.sadness
+        7 -> R.drawable.anger
+        else -> R.drawable.comfortable
     }
 }
 

@@ -16,9 +16,12 @@ data class DiaryResponse(
     val content: String,
     val emotiontype_id: Int?,
     val confidence: Float?,
+    val recommended_songs: List<SongResponse>,
+    val top_emotions: List<EmotionStatisticsSchema>,
     val created_at: String,
     val updated_at: String
 )
+
 
 data class DiaryCountResponse(
     val user_id: Int,
@@ -52,15 +55,13 @@ data class GenreResponse(
 // Song 관련
 
 data class SongResponse(
-    val id: String,
-    val title: String,
-    val artist: String,
+    val song_id: Int,
+    val song_name: String,
+    val artist: List<String>,
     val genre: String,
-    val lyrics: List<String>,
-    val album_id: String,
-    val album_name: String,
     val album_image: String,
-    val uri: String
+    val best_lyric: String,
+    val similarity_score: Float
 )
 
 // User 관련
