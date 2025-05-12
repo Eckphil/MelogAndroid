@@ -62,17 +62,18 @@ import java.time.LocalDate
 import java.time.YearMonth
 
 @Composable
-fun CustomCalendar(viewModel: CalendarViewModel = hiltViewModel()) {
+fun CustomCalendar(calendarViewModel: CalendarViewModel = hiltViewModel()) {
     val today = LocalDate.now()
     var selectedYear by remember { mutableStateOf(today.year) }
     var selectedMonth by remember { mutableStateOf(today.monthValue) }
-    val diaryEmotions = viewModel.diaryEmotions
+
+    // collectAsState()로 StateFlow를 관찰
+    val diaryEmotions by calendarViewModel.diaryEmotions.collectAsState(initial = emptyMap())
 
     LaunchedEffect(selectedYear, selectedMonth) {
-        viewModel.loadDiaryEmotions(selectedYear, selectedMonth)
+        calendarViewModel.loadDiaryEmotions(selectedYear, selectedMonth)
     }
 
-    // 달력 날짜 생성
     val firstDayOfMonth = LocalDate.of(selectedYear, selectedMonth, 1)
     val daysInMonth = firstDayOfMonth.lengthOfMonth()
     val startDayOfWeek = firstDayOfMonth.dayOfWeek.value % 7
@@ -83,8 +84,6 @@ fun CustomCalendar(viewModel: CalendarViewModel = hiltViewModel()) {
     }
 
     Column(modifier = Modifier.padding(16.dp)) {
-        // 연월 선택 및 요일 표시 생략 ...
-
         dates.chunked(7).forEach { week ->
             Row(modifier = Modifier.fillMaxWidth()) {
                 week.forEach { date ->
@@ -97,7 +96,8 @@ fun CustomCalendar(viewModel: CalendarViewModel = hiltViewModel()) {
                         if (date != null) {
                             val emotionId = diaryEmotions[date]
                             if (emotionId != null && emotionId in 0..7) {
-                                val imageRes = getDrawableIdByName("emotion_$emotionId")
+                                val imageName = getEmotionNameById(emotionId)
+                                val imageRes = getDrawableIdByName(imageName)
                                 Image(
                                     painter = painterResource(id = imageRes),
                                     contentDescription = "Emotion $emotionId",
@@ -106,7 +106,6 @@ fun CustomCalendar(viewModel: CalendarViewModel = hiltViewModel()) {
                             } else {
                                 Text(
                                     text = "${date.dayOfMonth}",
-                                    style = Typography.displayMedium,
                                     fontSize = 20.sp,
                                     color = Color.Black
                                 )
@@ -119,14 +118,26 @@ fun CustomCalendar(viewModel: CalendarViewModel = hiltViewModel()) {
     }
 }
 
+
+fun getEmotionNameById(id: Int): String {
+    return when (id) {
+        0 -> "excitement"
+        1 -> "anticipation"
+        2 -> "satisfaction"
+        3 -> "comfortable"
+        4 -> "emptiness"
+        5 -> "depression"
+        6 -> "sadness"
+        7 -> "anger"
+        else -> "comfortable" // 기본값
+    }
+}
+
 @Composable
 fun getDrawableIdByName(name: String): Int {
     val context = LocalContext.current
     return context.resources.getIdentifier(name, "drawable", context.packageName)
 }
-
-
-
 
 @Composable
 fun YearMonthPickerDialog(
@@ -212,27 +223,6 @@ fun YearMonthPickerDialog(
             }
         }
     }
-}
-
-@Composable
-fun getEmojiResId(emotionId: Int): Int {
-    return when (emotionId) {
-        0 -> R.drawable.excitement
-        1 -> R.drawable.anticipation
-        2 -> R.drawable.satisfaction
-        3 -> R.drawable.comfortable
-        4 -> R.drawable.emptiness
-        5 -> R.drawable.depression
-        6 -> R.drawable.sadness
-        7 -> R.drawable.anger
-        else -> R.drawable.comfortable
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun CustomCalenderPreview(){
-    CustomCalendar()
 }
 
 @Preview(showBackground = true)

@@ -45,7 +45,8 @@ import com.example.practice.ui.theme.White
 
 @Composable
 fun Calender(navController: NavHostController){
-    val viewModel: CalendarViewModel = viewModel()
+    val calendarViewModel: CalendarViewModel = viewModel() // hiltViewModel()도 가능
+
     Scaffold(
         content = { innerPadding ->
             Column (
@@ -56,7 +57,7 @@ fun Calender(navController: NavHostController){
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
-                CustomCalendar(viewModel = viewModel)
+                CustomCalendar(calendarViewModel)
                 Spacer(modifier = Modifier.height(40.dp))
                 Text(
                     text = "최근 작성한 일기",

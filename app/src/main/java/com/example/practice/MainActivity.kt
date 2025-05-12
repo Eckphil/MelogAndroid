@@ -1,5 +1,6 @@
 package com.example.practice
 
+import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -32,7 +33,10 @@ import com.example.practice.ui.screens.splash.Signup_00
 import com.example.practice.ui.screens.splash.Splash
 import com.example.practice.ui.theme.PracticeTheme
 import com.example.practice.ui.theme.Typography
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,18 +47,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Surface(color = MaterialTheme.colorScheme.primary) {
-        Text(
-            text = "Hello $name!",
-            modifier = modifier.padding(24.dp),
-            style = Typography.titleLarge
-        )
-    }
-}
-
-@Preview
 @Composable
 fun MainApp(modifier: Modifier = Modifier){
     val navController = rememberNavController()
@@ -73,25 +65,7 @@ fun MainApp(modifier: Modifier = Modifier){
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    PracticeTheme {
-        Greeting("Android")
-    }
-    Image(
-        painter = painterResource(id = R.drawable.anger),
-        contentDescription = "Test Image",
-        modifier =  Modifier.size(24.dp)
-    )
-}
+@HiltAndroidApp
+class MyApp : Application(){
 
-@Preview(showBackground = true)
-@Composable
-fun AssetTest() {
-    val imageVector = ImageVector.vectorResource(id = R.drawable.previous)
-    Image(
-        imageVector = imageVector,
-        contentDescription = "check"
-    )
 }

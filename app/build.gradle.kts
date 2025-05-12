@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("kotlin-kapt") // ✅ 이 줄 추가!
+    kotlin("kapt")
 }
 
 
@@ -68,6 +70,7 @@ dependencies {
 
     // Hilt Navigation-Compose
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+    implementation ("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03")
 
     // ViewModel, Lifecycle already included but ensure:
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
