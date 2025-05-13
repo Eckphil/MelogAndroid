@@ -5,23 +5,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.practice.screens.LoginTestScreen
+import com.example.practice.datastore.TokenManager
 import com.example.practice.ui.screens.diary.Calender
 import com.example.practice.ui.screens.diary.Diaryloading
 import com.example.practice.ui.screens.diary.Diaryview
@@ -31,12 +20,7 @@ import com.example.practice.ui.screens.signup.Signup_01
 import com.example.practice.ui.screens.signup.Usergenre
 import com.example.practice.ui.screens.splash.Signup_00
 import com.example.practice.ui.screens.splash.Splash
-import com.example.practice.ui.theme.PracticeTheme
-import com.example.practice.ui.theme.Typography
-import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.HiltAndroidApp
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +49,12 @@ fun MainApp(modifier: Modifier = Modifier){
     }
 }
 
-@HiltAndroidApp
 class MyApp : Application(){
+    lateinit var tokenManager: TokenManager
+        private set
 
+    override fun onCreate() {
+        super.onCreate()
+        tokenManager = TokenManager(this)
+    }
 }

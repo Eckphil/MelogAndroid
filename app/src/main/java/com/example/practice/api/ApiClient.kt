@@ -1,16 +1,27 @@
 package com.example.practice.api
 
+import android.content.Context
+import com.example.practice.interceptor.AuthInterceptor
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiClient {
-    private const val BASE_URL = "https://melog.ngrok.app"
+    private var retrofit: Retrofit? = null
 
-    val api: MelogApi by lazy {
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(MelogApi::class.java)
+    fun getApi(context: Context): MelogApi {
+        if (retrofit == null) {
+            val client = OkHttpClient.Builder()
+                .addInterceptor(AuthInterceptor(context))
+                .build()
+
+            retrofit = Retrofit.Builder()
+                .baseUrl("https://melog.ngrok.app") // 실제 API URL로 변경
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+        }
+
+        return retrofit!!.create(MelogApi::class.java)
     }
 }

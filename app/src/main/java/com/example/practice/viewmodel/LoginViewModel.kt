@@ -1,26 +1,24 @@
 package com.example.practice.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import com.example.practice.api.ApiClient
+import com.example.practice.api.MelogApi
 import com.example.practice.api.UserLoginRequest
+import com.example.practice.datastore.TokenManager
+import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
+import androidx.compose.runtime.*
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel(
+    private val tokenManager: TokenManager,
+    private val apiService: MelogApi
+) : ViewModel() {
 
     var email by mutableStateOf("")
-        private set
-
     var password by mutableStateOf("")
-        private set
-
     var loginMessage by mutableStateOf("")
-        private set
 
     fun onEmailChanged(newEmail: String) {
         email = newEmail
@@ -30,30 +28,37 @@ class LoginViewModel : ViewModel() {
         password = newPassword
     }
 
-    fun login(
-        onSuccess: () -> Unit,
-        onFailure: (String) -> Unit
-    ) {
+    fun login(onSuccess: () -> Unit, onFailure: (String) -> Unit) {
         viewModelScope.launch {
             try {
-                val response = ApiClient.api.loginUser(UserLoginRequest(email, password))
+                val response = apiService.loginUser(UserLoginRequest(email, password))
                 if (response.isSuccessful) {
                     loginMessage = "로그인 성공"
+                    response.body()?.let { body ->
+                        tokenManager.saveTokens(body.access_token, body.refresh_token)
+                    }
                     onSuccess()
                 } else {
                     loginMessage = "로그인 실패: ${response.code()}"
                     onFailure("아이디 또는 비밀번호를 다시 확인해주세요.")
                 }
-            } catch (e: IOException) {
-                loginMessage = "네트워크 오류"
-                onFailure("네트워크 오류가 발생했습니다.")
-            } catch (e: HttpException) {
-                loginMessage = "서버 오류"
-                onFailure("서버 오류가 발생했습니다.")
             } catch (e: Exception) {
-                loginMessage = "알 수 없는 오류"
-                onFailure("알 수 없는 오류: ${e.localizedMessage}")
+                onFailure("오류 발생: ${e.localizedMessage}")
             }
         }
+    }
+}
+
+
+class LoginViewModelFactory(
+    private val tokenManager: TokenManager,
+    private val apiService: MelogApi
+) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return LoginViewModel(tokenManager, apiService) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

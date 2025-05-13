@@ -77,4 +77,5 @@ dependencies {
 
     // Compose 필요 시 추가
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.1")
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 }

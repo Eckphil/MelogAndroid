@@ -1,47 +1,20 @@
 package com.example.practice.ui.component
 
-import CalendarViewModel
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -50,24 +23,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.practice.R
-import com.example.practice.ui.theme.Black
-import com.example.practice.ui.theme.Lavender02
-import com.example.practice.ui.theme.Lavender03
-import com.example.practice.ui.theme.Lavender04
-import com.example.practice.ui.theme.Typography
+import com.example.practice.ui.theme.*
+import com.example.practice.viewmodel.CalendarViewModel
+import com.example.practice.viewmodel.CalendarViewModelFactory
 import java.time.LocalDate
-import java.time.YearMonth
+import java.time.format.DateTimeFormatter
 
 @Composable
-fun CustomCalendar(calendarViewModel: CalendarViewModel = hiltViewModel()) {
+fun CustomCalendar() {
+    val context = LocalContext.current
+    val factory = remember { CalendarViewModelFactory(context) }
+    val calendarViewModel: CalendarViewModel = viewModel(factory = factory)
+
     val today = LocalDate.now()
     var selectedYear by remember { mutableStateOf(today.year) }
     var selectedMonth by remember { mutableStateOf(today.monthValue) }
+    var showDialog by remember { mutableStateOf(false) }
 
-    // collectAsState()로 StateFlow를 관찰
     val diaryEmotions by calendarViewModel.diaryEmotions.collectAsState(initial = emptyMap())
 
     LaunchedEffect(selectedYear, selectedMonth) {
@@ -84,6 +58,31 @@ fun CustomCalendar(calendarViewModel: CalendarViewModel = hiltViewModel()) {
     }
 
     Column(modifier = Modifier.padding(16.dp)) {
+        Text(
+            text = "${selectedMonth}월",
+            modifier = Modifier.clickable { showDialog = true },
+            style = Typography.displayMedium,
+            fontSize = 36.sp,
+            color = Lavender02
+        )
+
+        Spacer(modifier = Modifier.height(40.dp))
+
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            listOf("일", "월", "화", "수", "목", "금", "토").forEach { day ->
+                Text(
+                    text = day,
+                    modifier = Modifier.weight(1f),
+                    style = Typography.displayMedium,
+                    fontSize = 20.sp,
+                    color = Lavender03,
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
         dates.chunked(7).forEach { week ->
             Row(modifier = Modifier.fillMaxWidth()) {
                 week.forEach { date ->
@@ -101,13 +100,13 @@ fun CustomCalendar(calendarViewModel: CalendarViewModel = hiltViewModel()) {
                                 Image(
                                     painter = painterResource(id = imageRes),
                                     contentDescription = "Emotion $emotionId",
-                                    modifier = Modifier.size(32.dp)
+                                    modifier = Modifier.size(48.dp)
                                 )
                             } else {
                                 Text(
                                     text = "${date.dayOfMonth}",
                                     fontSize = 20.sp,
-                                    color = Color.Black
+                                    color = Lavender03
                                 )
                             }
                         }
@@ -115,21 +114,32 @@ fun CustomCalendar(calendarViewModel: CalendarViewModel = hiltViewModel()) {
                 }
             }
         }
+
+        if (showDialog) {
+            YearMonthPickerDialog(
+                initialYear = selectedYear,
+                onDismiss = { showDialog = false },
+                onMonthSelected = { year, month ->
+                    selectedYear = year
+                    selectedMonth = month
+                    showDialog = false
+                }
+            )
+        }
     }
 }
 
-
 fun getEmotionNameById(id: Int): String {
     return when (id) {
-        0 -> "excitement"
-        1 -> "anticipation"
-        2 -> "satisfaction"
-        3 -> "comfortable"
-        4 -> "emptiness"
-        5 -> "depression"
-        6 -> "sadness"
-        7 -> "anger"
-        else -> "comfortable" // 기본값
+        1 -> "excitement"
+        2 -> "anticipation"
+        3 -> "satisfaction"
+        4 -> "comfortable"
+        5 -> "emptiness"
+        6 -> "depression"
+        7 -> "sadness"
+        8 -> "anger"
+        else -> "comfortable"
     }
 }
 
@@ -156,43 +166,32 @@ fun YearMonthPickerDialog(
                 .width(380.dp)
         ) {
             Column(
-                modifier = Modifier
-                    .fillMaxSize(),
+                modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Spacer(modifier = Modifier.height(16.dp))
-                // 연도 선택
+
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     IconButton(onClick = { currentYear-- }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Previous Year"
-                        )
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Previous Year")
                     }
-
                     Text(
-                        text = "$currentYear"+"년",
+                        text = "${currentYear}년",
                         style = Typography.displayMedium,
                         fontSize = 28.sp,
-                        modifier = Modifier.align(Alignment.CenterVertically),
                         color = Black
                     )
-
                     IconButton(onClick = { currentYear++ }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                            contentDescription = "Next Year"
-                        )
+                        Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = "Next Year")
                     }
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // 월 선택 (4x3)
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(4),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -215,7 +214,7 @@ fun YearMonthPickerDialog(
                                 style = Typography.displayMedium,
                                 fontSize = 20.sp,
                                 color = Lavender02,
-                                maxLines = 1, // ✅ 한 줄로 제한
+                                maxLines = 1
                             )
                         }
                     }
@@ -227,6 +226,6 @@ fun YearMonthPickerDialog(
 
 @Preview(showBackground = true)
 @Composable
-fun YearMonthPickerDialogPreview(){
-    YearMonthPickerDialog(2025,{}, { year, month -> })
+fun YearMonthPickerDialogPreview() {
+    YearMonthPickerDialog(2025, {}, { _, _ -> })
 }

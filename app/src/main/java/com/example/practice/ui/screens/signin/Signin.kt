@@ -7,20 +7,26 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.practice.api.ApiClient
+import com.example.practice.datastore.TokenManager
 import com.example.practice.ui.component.*
 import com.example.practice.ui.theme.Lavender02
 import com.example.practice.ui.theme.Typography
 import com.example.practice.viewmodel.LoginViewModel
+import com.example.practice.viewmodel.LoginViewModelFactory
 
 @Composable
-fun Signin(navController: NavHostController, loginViewModel: LoginViewModel = viewModel()) {
+fun Signin(navController: NavHostController) {
     val context = LocalContext.current
+    val tokenManager = remember(context) { TokenManager(context) }
+    val apiService = remember(context) { ApiClient.getApi(context) }  // ← ApiClient 수정 완료된 경우
+    val factory = remember { LoginViewModelFactory(tokenManager, apiService) }
+    val loginViewModel: LoginViewModel = viewModel(factory = factory)
+
 
     Scaffold(
         topBar = { NoButtonAppBar("로그인", { onBackClickExample() }) },

@@ -1,40 +1,57 @@
-import android.util.Log
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateMapOf
-import androidx.compose.runtime.mutableStateOf
+package com.example.practice.viewmodel
+
+import android.content.Context
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.practice.api.ApiClient
-import com.example.practice.api.DiaryResponse
 import com.example.practice.api.MelogApi
-import com.example.practice.repository.DiaryRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import javax.inject.Inject
 
-@HiltViewModel
-class CalendarViewModel @Inject constructor(
-    private val diaryRepository: DiaryRepository
-) : ViewModel() {
+class CalendarViewModel(context: Context) : ViewModel() {
 
     private val _diaryEmotions = MutableStateFlow<Map<LocalDate, Int>>(emptyMap())
     val diaryEmotions: StateFlow<Map<LocalDate, Int>> = _diaryEmotions
 
+    private val api: MelogApi = ApiClient.getApi(context)
+
     fun loadDiaryEmotions(year: Int, month: Int) {
         viewModelScope.launch {
-            val diaries = diaryRepository.getDiariesByMonth(year, month)
-            val emotionsMap = diaries.associate {
-                LocalDate.parse(it.created_at) to (it.emotiontype_id ?: -1)
+            try {
+                val response = api.getDiaryByDate(year, month)
+                if (response.isSuccessful) {
+                    val diaries = response.body() ?: emptyList()
+                    val formatter = DateTimeFormatter.ISO_DATE_TIME
+
+                    val mapped = diaries
+                        .filter { it.created_at != null && it.emotiontype_id != null }
+                        .associate { diary ->
+                            val date = LocalDate.parse(diary.created_at.substring(0, 10), DateTimeFormatter.ISO_DATE)
+                            date to diary.emotiontype_id!!
+                        }
+
+                    _diaryEmotions.value = mapped
+                } else {
+                    _diaryEmotions.value = emptyMap()
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _diaryEmotions.value = emptyMap()
             }
-            _diaryEmotions.value = emotionsMap
         }
     }
 }
 
-class CalenderViewModel : ViewModel(){
-
+class CalendarViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(CalendarViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return CalendarViewModel(context) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
 }

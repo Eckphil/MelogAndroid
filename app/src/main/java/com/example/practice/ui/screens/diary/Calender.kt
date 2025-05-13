@@ -1,6 +1,5 @@
 package com.example.practice.ui.screens.diary
 
-import CalendarViewModel
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,10 +20,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,11 +43,11 @@ import com.example.practice.ui.theme.Lavender03
 import com.example.practice.ui.theme.Lavender04
 import com.example.practice.ui.theme.Typography
 import com.example.practice.ui.theme.White
+import com.example.practice.viewmodel.CalendarViewModel
+import com.example.practice.viewmodel.CalendarViewModelFactory
 
 @Composable
 fun Calender(navController: NavHostController){
-    val calendarViewModel: CalendarViewModel = viewModel() // hiltViewModel()도 가능
-
     Scaffold(
         content = { innerPadding ->
             Column (
@@ -57,7 +58,7 @@ fun Calender(navController: NavHostController){
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
-                CustomCalendar(calendarViewModel)
+                CustomCalendar()
                 Spacer(modifier = Modifier.height(40.dp))
                 Text(
                     text = "최근 작성한 일기",
