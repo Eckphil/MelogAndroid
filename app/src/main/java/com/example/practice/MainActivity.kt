@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
@@ -44,7 +45,15 @@ fun MainApp(modifier: Modifier = Modifier){
         composable("Calender"){ Calender(navController)}
         composable("WriteDiary") { WriteDiary(navController)}
         composable("Diaryloading") { Diaryloading(navController)}
-        composable("Diaryview"){Diaryview(navController)}
+        composable("Diaryview/{diaryId}") { backStackEntry ->
+            val diaryId = backStackEntry.arguments?.getString("diaryId")?.toIntOrNull()
+            if (diaryId != null) {
+                Diaryview(navController = navController, diaryId = diaryId)
+            } else {
+                // diaryId가 없거나 잘못된 경우 예외 처리
+                Text("잘못된 일기 ID입니다.")
+            }
+        }
         // 더 추가 가능
     }
 }

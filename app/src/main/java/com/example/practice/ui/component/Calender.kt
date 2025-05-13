@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.example.practice.R
 import com.example.practice.ui.theme.*
 import com.example.practice.viewmodel.CalendarViewModel
@@ -32,7 +33,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun CustomCalendar() {
+fun CustomCalendar(navController: NavHostController) {
     val context = LocalContext.current
     val factory = remember { CalendarViewModelFactory(context) }
     val calendarViewModel: CalendarViewModel = viewModel(factory = factory)
@@ -43,6 +44,7 @@ fun CustomCalendar() {
     var showDialog by remember { mutableStateOf(false) }
 
     val diaryEmotions by calendarViewModel.diaryEmotions.collectAsState(initial = emptyMap())
+    val diaryIDMap by calendarViewModel.diaryIdMap.collectAsState(initial = emptyMap())
 
     LaunchedEffect(selectedYear, selectedMonth) {
         calendarViewModel.loadDiaryEmotions(selectedYear, selectedMonth)
@@ -94,13 +96,18 @@ fun CustomCalendar() {
                     ) {
                         if (date != null) {
                             val emotionId = diaryEmotions[date]
+                            val diaryId = diaryIDMap[date]
                             if (emotionId != null && emotionId in 0..7) {
                                 val imageName = getEmotionNameById(emotionId)
                                 val imageRes = getDrawableIdByName(imageName)
                                 Image(
                                     painter = painterResource(id = imageRes),
                                     contentDescription = "Emotion $emotionId",
-                                    modifier = Modifier.size(48.dp)
+                                    modifier = Modifier
+                                        .size(48.dp)
+                                        .clickable {
+                                            navController.navigate("Diaryview/$diaryId")
+                                        }
                                 )
                             } else {
                                 Text(

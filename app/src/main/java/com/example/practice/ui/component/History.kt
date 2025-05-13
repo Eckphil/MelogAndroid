@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.res.painterResource
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -38,17 +39,19 @@ import com.example.practice.ui.theme.White
 enum class EmotionType{excitement, anticipation, satisfaction, comfortable, emptiness, depression, sadness, anger}
 
 data class DiaryHistoryItem(
+    val diaryId: Int, // ✅ 추가
     val year: Int,
     val month: Int,
     val day: Int,
     val songTitle: String,
     val artist: String,
     val lyrics: String,
-    val emotion: EmotionType // 예: enum class EmotionType { HAPPY, SAD, ANGRY, ... }
+    val emotion: EmotionType
 )
 
+
 @Composable
-fun History(item: DiaryHistoryItem){
+fun History(item: DiaryHistoryItem, onClick: (Int) -> Unit = {}){
     val emotionIcon = when (item.emotion) {
         EmotionType.excitement -> R.drawable.excitement
         EmotionType.anticipation -> R.drawable.anticipation
@@ -66,6 +69,7 @@ fun History(item: DiaryHistoryItem){
             .width(360.dp)
             .height(120.dp)
             .background(color = White, shape = RoundedCornerShape(size = 15.dp))
+            .clickable { onClick(item.diaryId) }
     ){
         Spacer(modifier = Modifier.height(8.dp))
         Row {
@@ -119,6 +123,7 @@ fun History(item: DiaryHistoryItem){
 @Composable
 fun HistoryPreview(){
     val exampleItem = DiaryHistoryItem(
+        diaryId = 1,
         year = 2025, month = 4, day = 7,
         songTitle = "Love Dive",
         artist = "IVE",

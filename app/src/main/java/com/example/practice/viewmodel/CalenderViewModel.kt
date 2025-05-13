@@ -5,42 +5,54 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.practice.api.ApiClient
-import com.example.practice.api.MelogApi
+import com.example.practice.ui.component.EmotionType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class CalendarViewModel(context: Context) : ViewModel() {
+class CalendarViewModel(private val context: Context) : ViewModel() {
 
     private val _diaryEmotions = MutableStateFlow<Map<LocalDate, Int>>(emptyMap())
     val diaryEmotions: StateFlow<Map<LocalDate, Int>> = _diaryEmotions
 
-    private val api: MelogApi = ApiClient.getApi(context)
+    private val _diaryIdMap = MutableStateFlow<Map<LocalDate, Int>>(emptyMap())
+    val diaryIdMap: StateFlow<Map<LocalDate, Int>> = _diaryIdMap
 
     fun loadDiaryEmotions(year: Int, month: Int) {
         viewModelScope.launch {
             try {
+                val api = ApiClient.getApi(context)
                 val response = api.getDiaryByDate(year, month)
                 if (response.isSuccessful) {
                     val diaries = response.body() ?: emptyList()
                     val formatter = DateTimeFormatter.ISO_DATE_TIME
 
-                    val mapped = diaries
+                    val emotionMap = diaries
                         .filter { it.created_at != null && it.emotiontype_id != null }
                         .associate { diary ->
-                            val date = LocalDate.parse(diary.created_at.substring(0, 10), DateTimeFormatter.ISO_DATE)
+                            val date = LocalDate.parse(diary.created_at, formatter)
                             date to diary.emotiontype_id!!
                         }
 
-                    _diaryEmotions.value = mapped
+                    val idMap = diaries
+                        .filter { it.created_at != null }
+                        .associate { diary ->
+                            val date = LocalDate.parse(diary.created_at, formatter)
+                            date to diary.id
+                        }
+
+                    _diaryEmotions.value = emotionMap
+                    _diaryIdMap.value = idMap
                 } else {
                     _diaryEmotions.value = emptyMap()
+                    _diaryIdMap.value = emptyMap()
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
                 _diaryEmotions.value = emptyMap()
+                _diaryIdMap.value = emptyMap()
             }
         }
     }
