@@ -212,7 +212,7 @@ fun BottomAppBar() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(120.dp + bottomPadding)
+            .height(120.dp)
             .background(White)
             .padding(top = 10.dp,bottom = bottomPadding),
         horizontalArrangement = Arrangement.SpaceEvenly

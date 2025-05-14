@@ -59,7 +59,7 @@ interface MelogApi {
     suspend fun createDiary(@Body request: DiaryCreateRequest): Response<List<SongResponse>>
 
     @POST("/diary/main")
-    suspend fun createDiaryMain(@Body request: DiaryCreateRequest): Response<List<SongResponse>>
+    suspend fun createDiaryMain(@Body request: DiaryCreateRequest): Response<DiaryResponse>
 
     @GET("/diary/{diary_id}")
     suspend fun getDiary(@Path("diary_id") diaryId: Int): Response<DiaryResponse>

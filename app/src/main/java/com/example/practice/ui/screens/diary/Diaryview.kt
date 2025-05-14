@@ -1,5 +1,6 @@
 package com.example.practice.ui.screens.diary
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -43,8 +44,12 @@ import com.example.practice.ui.theme.Lavender01
 import com.example.practice.ui.theme.Lavender02
 import com.example.practice.ui.theme.Lavender04
 import com.example.practice.ui.theme.Typography
+import com.example.practice.viewmodel.DeleteDiaryViewModel
+import com.example.practice.viewmodel.DeleteDiaryViewModelFactory
 import com.example.practice.viewmodel.DiaryDetailViewModel
 import com.example.practice.viewmodel.DiaryDetailViewModelFactory
+import com.example.practice.viewmodel.UpdateDiaryViewModel
+import com.example.practice.viewmodel.UpdateDiaryViewModelFactory
 
 @Composable
 fun Diaryview(
@@ -52,9 +57,11 @@ fun Diaryview(
     diaryId: Int
 ) {
     val context = LocalContext.current
-    val viewModel: DiaryDetailViewModel = viewModel(
-        factory = DiaryDetailViewModelFactory(context)
-    )
+    val viewModel: DiaryDetailViewModel = viewModel(factory = DiaryDetailViewModelFactory(context))
+
+    val deleteFactory = remember { DeleteDiaryViewModelFactory(context) }
+    val deleteViewModel: DeleteDiaryViewModel = viewModel(factory = deleteFactory)
+    val deleteSuccess by deleteViewModel.deleteSuccess.collectAsState()
 
     val diaryItem by viewModel.diaryItem.collectAsState()
     val content by viewModel.content.collectAsState()
@@ -62,6 +69,12 @@ fun Diaryview(
     // Composable이 시작되자마자 일기 불러오기
     LaunchedEffect(diaryId) {
         viewModel.loadDiaryById(diaryId)
+    }
+    LaunchedEffect(deleteSuccess) {
+        if (deleteSuccess) {
+            Toast.makeText(context, "일기가 삭제되었습니다.", Toast.LENGTH_SHORT).show()
+            navController.popBackStack()
+        }
     }
 
     Scaffold(
@@ -71,7 +84,7 @@ fun Diaryview(
                 text1 = "삭제",
                 text2 = "수정",
                 onBackClick = { navController.popBackStack() },
-                onAction1Click = { /* 삭제 구현 */ },
+                onAction1Click = { deleteViewModel.deleteDiary(diaryId) },
                 onAction2Click = { /* 수정 구현 */ }
             )
         },
